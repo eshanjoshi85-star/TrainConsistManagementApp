@@ -1,14 +1,16 @@
-//Version 4.0
+//Version 5.0
 //Eshan Pankaj Joshi
 //UC1: Initialize train consist
 //UC2: Passenger Bogie Operations
 //UC3: Track Unique Bogie IDs
 //UC4: Maintain Ordered Bogie IDs (TreeSet & SortedSet)
+//UC5: Preserve Insertion Order of Bogies
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.LinkedHashSet;
 
 public class TrainApp {
 
@@ -84,5 +86,20 @@ public class TrainApp {
 
         // Final output
         System.out.println("Final ordered train consist: " + linkedTrain);
+        // ---------------- UC5 ----------------
+        System.out.println("\nPreserving insertion order with uniqueness using LinkedHashSet...");
+
+// Create LinkedHashSet
+        LinkedHashSet<String> trainFormation = new LinkedHashSet<>();
+
+// Add bogies
+        trainFormation.add("Engine");
+        trainFormation.add("Sleeper");
+        trainFormation.add("Cargo");
+        trainFormation.add("Guard");
+        trainFormation.add("Sleeper"); // duplicate - will be ignored
+
+// Display final formation
+        System.out.println("Final train formation (no duplicates, ordered): " + trainFormation);
     }
 }

@@ -12,96 +12,52 @@ Tracking composition, capacity, cargo types, and safety compliance
 
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
-UC2: Add Passenger Bogies to Train (ArrayList Operations)
+UC3: Track Unique Bogie IDs (Set – HashSet)
 -
-**Drawback of UC1 Approach:**
+**Drawback of UC2 Approach**
 
-In UC1, the train consist is initialized but contains no bogies.
-
-There is no way yet to add, remove, or inspect bogies dynamically.
-
-To simulate a real railway system, the application must support operations such as:
-
-Adding passenger bogies
-
-Removing bogies
-
-
-Checking whether a bogie exists
-
-
-This leads us to use ArrayList operations.
+In UC2, bogies are stored in a List. However, a List allows duplicate values, which is dangerous in a railway system.
+For example, two bogies could accidentally be registered with the same ID:
+BG101, BG101
+This violates business rules and can cause inconsistent train formation.
+To enforce uniqueness, we introduce the Set data structure.
 
 **Goal**
 
-Allow dynamic insertion and removal of passenger bogies using ArrayList.
+Ensure no duplicate bogie IDs are added to the train.
 
 **Actor:** User
 
-
 **Flow**
 
-User runs program
+User adds bogie IDs
 
-Passenger bogies are added
+System inserts into HashSet
 
-Bogies are displayed
+Duplicates are ignored
 
-A bogie is removed
+Unique IDs are displayed.
 
-Existence is checked
+**Key Concepts Used in UC3**
 
-Program continues
+HashSet – Stores unique elements.
 
-**Key Concepts Used in UC2**
+Set Interface – Collection type that does not allow duplicate elements.
 
-ArrayList – A resizable collection that allows insertion and deletion at runtime.
+HashSet – Implementation of Set that stores elements using hashing for fast access.
 
+add() Method – Inserts values into the set.
 
-add() Method – Inserts elements into the list.
+Automatic Deduplication – HashSet ensures uniqueness without manual checks.
 
-
-remove() Method – Deletes elements from the list.
-
-
-contains() Method – Checks whether a given element exists in the list.
-
-
-Insertion Order Preservation – ArrayList maintains the order in which elements are added.
-
-
-CRUD Operations – Create, Read, Update, Delete operations on collections.
-
-
-**Key Requirements**
-
-Create an ArrayList<String> for passenger bogies.
-
-
-Add bogies: Sleeper, AC Chair, First Class.
-
-
-Print the list after insertion.
-
-
-Remove one bogie (for example AC Chair).
-
-
-Use contains() to check if Sleeper exists.
-
-
-Print final list state.
+Unordered Storage – Elements are not stored using index positions.
 
 **Key Benefits**
 
-Demonstrates real-world list management.
+Enforces business constraints.
 
-Shows how collections grow dynamically.
+Prevents data corruption.
 
+Teaches students when to use Set instead of List.
 
-Introduces CRUD behavior on data structures.
-
-
-Helps students visualize how bogies are attached and detached.
-
-
+Introduces uniqueness as a real-world requirement.

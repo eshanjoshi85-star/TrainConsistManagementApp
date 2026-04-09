@@ -12,72 +12,86 @@ Tracking composition, capacity, cargo types, and safety compliance
 
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
-UC5: Preserve Insertion Order of Bogies (LinkedHashSet)
+UC6: Map Bogie to Capacity (HashMap)
 -
 
-**Drawback of UC4 Approach**
+**Drawback of UC5 Approach**
 
-In UC4, we maintained order using LinkedList.
+In UC5, the train formation stores only the names of bogies in order and ensures uniqueness.
+However, a real railway system does not operate using names alone.
+Each bogie has important operational attributes such as:
 
-However, train yards often perform last-minute attachments and emergency removals, where the last attached bogie must be removed first.
+• Seating capacity for passenger bogies
 
-Problems with plain list logic:
+• Load capacity for goods bogies
 
-No enforced removal discipline.
+• Safety limits and constraints
 
+With only a Set of strings:
 
-Students don’t see real operational constraints.
+❌ There is no way to associate data with a bogie.
 
+❌ Capacity information cannot be stored.
 
-LIFO behavior is not modeled.
-
-
-To simulate real-world rollback and last-attachment handling, we need a Stack.
+❌ The system cannot perform analytics or validation.
 
 **Goal**
 
-Maintain insertion order while enforcing uniqueness.
+Associate each bogie with its seating or load capacity using a key–value mapping structure.
 
-Actor: User
-Flow
-User adds bogies
-LinkedHashSet stores them
-Formation is printed in original order
+**Actor:** User
 
-**Key Concepts Used in UC5**
+**Flow**
 
-LinkedHashSet – A hash table and linked list implementation of the Set interface that stores unique elements while maintaining the exact insertion order of bogies in the train formation.
+User creates a bogie-capacity mapping.
 
-Set Interface – A collection type in Java that does not allow duplicate elements, ensuring that the same bogie cannot be attached more than once in the train consist.
+System stores bogie names as keys and capacities as values.
 
-add() Method – Inserts a bogie into the formation. If the bogie already exists, the method ignores the insertion automatically, protecting the train from invalid duplicate attachments.
+Entries are inserted into a HashMap.
 
-Automatic Deduplication – LinkedHashSet removes duplicate bogies internally without requiring manual validation logic from the developer.
+System iterates through the map.
 
-Insertion Order Preservation – Unlike HashSet, LinkedHashSet maintains the sequence in which bogies are added, allowing the train consist to reflect the real physical attachment order.
+Capacity details are displayed for each bogie.
 
-Ordered Iteration – When iterating or printing the collection, bogies are returned in the same order they were connected to the engine.
+Program continues.
+
+
+**Key Concepts Used in UC6**
+
+HashMap – A hash table based implementation of the Map interface that stores data in key–value pairs, allowing each bogie to be mapped directly to its seating or load capacity.
+
+Map Interface – A collection type in Java that represents a mapping between unique keys and their corresponding values, ideal for associating bogies with operational attributes.
+
+put() Method – Inserts a key–value pair into the map, where the bogie name becomes the key and the capacity becomes the value.
+
+Key–Value Association – Models real-world relationships by binding a bogie to its property, such as binding "Sleeper" to 72 seats.
+
+entrySet() Iteration – Provides a view of the entire map as a set of entries, allowing iteration over both keys and values together.
+
+Fast Lookup Using Keys – HashMap allows constant-time retrieval of capacity using a bogie name as the key, making planning and validation efficient.
+
 
 **Key Requirements**
 
-Create a LinkedHashSet<String> to represent the train formation.
+Create a HashMap<String, Integer> to store bogie-capacity information.
 
-Attach bogies such as: Engine, Sleeper, Cargo, Guard.
+Insert capacity values for bogies such as Sleeper, AC Chair, and First Class.
 
-Attempt to attach a duplicate bogie intentionally (for example, Sleeper again).
+Use the put() method to map each bogie to its capacity.
 
-Display the final formation order using System.out.println().
+Iterate over the map using entrySet().
 
-Ensure that duplicates do not appear in the output.
+Display each bogie along with its corresponding capacity.
+
 
 **Key Benefits**
 
-Enforces real-world business rules by preventing duplicate bogies.
+Models real-world attribute mapping in software systems.
 
-Preserves physical attachment sequence of the train.
+Introduces key–value data representation instead of flat collections.
 
-Demonstrates how Java combines ordering with uniqueness.
+Enables fast lookup and validation of bogie properties.
 
-Helps students understand when LinkedHashSet is better than HashSet or List.
+Prepares students for enterprise data modeling patterns.
 
-Builds foundation for safe and predictable train composition logic.
+Builds the foundation for analytics and planning use cases in later UCs.

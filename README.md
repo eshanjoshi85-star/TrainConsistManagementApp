@@ -12,95 +12,72 @@ Tracking composition, capacity, cargo types, and safety compliance
 
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
-UC4: Maintain Ordered Bogie IDs (TreeSet & SortedSet)
+UC5: Preserve Insertion Order of Bogies (LinkedHashSet)
 -
-**Drawback of UC3 Approach**
+
+**Drawback of UC4 Approach**
+
+In UC4, we maintained order using LinkedList.
+
+However, train yards often perform last-minute attachments and emergency removals, where the last attached bogie must be removed first.
+
+Problems with plain list logic:
+
+No enforced removal discipline.
 
 
-In UC3, we ensured the uniqueness of bogie IDs using HashSet.
-
-While this solves duplication, it introduces a new problem:
-
-HashSet does not preserve order.
-
-A train consist must follow a physical sequence:
-
-Locomotive → Passenger → Cargo → Guard Coach.
+Students don’t see real operational constraints.
 
 
-With HashSet, the arrangement becomes unpredictable, which is unacceptable for real-world train formation.
+LIFO behavior is not modeled.
 
-So, we need a structure that:
 
-✔ Maintains insertion order
-
-✔ Supports fast insertion/removal
-
-✔ Models real train chaining
-
-This leads us to LinkedList.
+To simulate real-world rollback and last-attachment handling, we need a Stack.
 
 **Goal**
 
-Ensure no duplicate bogie IDs are added to the train.
+Maintain insertion order while enforcing uniqueness.
 
+Actor: User
+Flow
+User adds bogies
+LinkedHashSet stores them
+Formation is printed in original order
 
-**Actor :** User
+**Key Concepts Used in UC5**
 
-**Flow**
+LinkedHashSet – A hash table and linked list implementation of the Set interface that stores unique elements while maintaining the exact insertion order of bogies in the train formation.
 
-User adds bogie IDs
+Set Interface – A collection type in Java that does not allow duplicate elements, ensuring that the same bogie cannot be attached more than once in the train consist.
 
-System inserts into HashSet
+add() Method – Inserts a bogie into the formation. If the bogie already exists, the method ignores the insertion automatically, protecting the train from invalid duplicate attachments.
 
-Duplicates are ignored
+Automatic Deduplication – LinkedHashSet removes duplicate bogies internally without requiring manual validation logic from the developer.
 
-Unique IDs are displayed.
+Insertion Order Preservation – Unlike HashSet, LinkedHashSet maintains the sequence in which bogies are added, allowing the train consist to reflect the real physical attachment order.
 
-**Key Concepts Used in UC4**
-
-LinkedList – A doubly linked list implementation of the List interface where elements are connected using node references instead of indexes.
-
-
-Node Structure Concept – Each element contains data and links to previous and next nodes, enabling efficient insertions and deletions.
-
-
-addFirst() / addLast() – Methods to attach bogies at the beginning or end of the train.
-
-
-add(index, element) – Inserts a bogie in the middle of the consist.
-
-
-removeFirst() / removeLast() – Detaches bogies from the head or tail.
-
-
-Order Preservation – Maintains the physical sequence of train bogies.
+Ordered Iteration – When iterating or printing the collection, bogies are returned in the same order they were connected to the engine.
 
 **Key Requirements**
 
-Create a LinkedList<String> for the consist.
+Create a LinkedHashSet<String> to represent the train formation.
 
+Attach bogies such as: Engine, Sleeper, Cargo, Guard.
 
-Add bogies: Engine, Sleeper, AC, Cargo, Guard.
+Attempt to attach a duplicate bogie intentionally (for example, Sleeper again).
 
+Display the final formation order using System.out.println().
 
-Insert a Pantry Car at position 2.
-
-
-Remove the first and last bogie.
-
-
-Display the final ordered train consist.
+Ensure that duplicates do not appear in the output.
 
 **Key Benefits**
 
-Models real-world chaining behavior.
+Enforces real-world business rules by preventing duplicate bogies.
 
+Preserves physical attachment sequence of the train.
 
-Teaches when LinkedList is better than ArrayList.
+Demonstrates how Java combines ordering with uniqueness.
 
+Helps students understand when LinkedHashSet is better than HashSet or List.
 
-Demonstrates insertion and deletion efficiency.
-
-
-Helps students visualize node-based structures.
+Builds foundation for safe and predictable train composition logic.

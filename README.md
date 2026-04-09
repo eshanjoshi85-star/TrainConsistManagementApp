@@ -12,62 +12,96 @@ Tracking composition, capacity, cargo types, and safety compliance
 
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
-**UC1: Initialize Train and Display Consist Summary**
+UC2: Add Passenger Bogies to Train (ArrayList Operations)
+-
+**Drawback of UC1 Approach:**
 
-**Goal:**
+In UC1, the train consist is initialized but contains no bogies.
 
-Initialize the Train Consist Management App and display the initial state of the train.
+There is no way yet to add, remove, or inspect bogies dynamically.
 
-Actor: User
+To simulate a real railway system, the application must support operations such as:
 
-**Flow:**
+Adding passenger bogies
 
-User runs the program
-
-Application prints welcome message
-
-Train consist is initialize
-
-Initial bogie count is displayed
-
-Program continues.
-
-Key Concepts Used in UC1
-
-Class – A Java class acts as a container to hold program data and logic. The Train App logic lives inside a class.
-
-Main Method – Entry point of the Java application with the signature:
-
-public static void main(String[] args)
-
-Static Keyword – Allows the JVM to invoke main() without creating an object instance.
-
-ArrayList – A resizable list implementation from the Java Collections Framework used to store bogies dynamically. Unlike arrays, its size can grow at runtime.
-
-List Interface – Provides abstraction over different List implementations such as ArrayList and LinkedList.
-
-Console Output – Using System.out.println() to display application messages and consist summary.
-
-Dynamic Initialization – Creating an empty collection that will later be populated as bogies are added.
-
-Key Requirements
-
-Create a Java class for the Train App.
-
-Implement main() as the program entry point.
-
-Print a welcome message such as:
-
-=== Train Consist Management App ===
-
-Initialize an empty List using ArrayList.
+Removing bogies
 
 
-Display the initial bogie count using size().
-Key Benefits
-Introduces application startup flow.
-Teaches students where execution begins.
-Demonstrates why dynamic collections are needed instead of fixed arrays.
+Checking whether a bogie exists
 
 
-Creates the foundation for all subsequent use cases.
+This leads us to use ArrayList operations.
+
+**Goal**
+
+Allow dynamic insertion and removal of passenger bogies using ArrayList.
+
+**Actor:** User
+
+
+**Flow**
+
+User runs program
+
+Passenger bogies are added
+
+Bogies are displayed
+
+A bogie is removed
+
+Existence is checked
+
+Program continues
+
+**Key Concepts Used in UC2**
+
+ArrayList – A resizable collection that allows insertion and deletion at runtime.
+
+
+add() Method – Inserts elements into the list.
+
+
+remove() Method – Deletes elements from the list.
+
+
+contains() Method – Checks whether a given element exists in the list.
+
+
+Insertion Order Preservation – ArrayList maintains the order in which elements are added.
+
+
+CRUD Operations – Create, Read, Update, Delete operations on collections.
+
+
+**Key Requirements**
+
+Create an ArrayList<String> for passenger bogies.
+
+
+Add bogies: Sleeper, AC Chair, First Class.
+
+
+Print the list after insertion.
+
+
+Remove one bogie (for example AC Chair).
+
+
+Use contains() to check if Sleeper exists.
+
+
+Print final list state.
+
+**Key Benefits**
+
+Demonstrates real-world list management.
+
+Shows how collections grow dynamically.
+
+
+Introduces CRUD behavior on data structures.
+
+
+Helps students visualize how bogies are attached and detached.
+
+

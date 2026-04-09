@@ -1,16 +1,19 @@
-//Version 5.0
+//Version 6.0
 //Eshan Pankaj Joshi
 //UC1: Initialize train consist
 //UC2: Passenger Bogie Operations
 //UC3: Track Unique Bogie IDs
 //UC4: Maintain Ordered Bogie IDs (TreeSet & SortedSet)
 //UC5: Preserve Insertion Order of Bogies
+//UC6: Map Bogie to Capacity (HashMap)
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.LinkedHashSet;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TrainApp {
 
@@ -101,5 +104,25 @@ public class TrainApp {
 
 // Display final formation
         System.out.println("Final train formation (no duplicates, ordered): " + trainFormation);
+        // ---------------- UC6 ----------------
+        System.out.println("\nMapping bogies to their capacities using HashMap...");
+
+// Create HashMap
+        Map<String, Integer> bogieCapacityMap = new HashMap<>();
+
+// Add bogie-capacity pairs
+        bogieCapacityMap.put("Sleeper", 72);
+        bogieCapacityMap.put("AC Chair", 60);
+        bogieCapacityMap.put("First Class", 24);
+
+// Display all entries using entrySet()
+        System.out.println("Bogie Capacity Details:");
+
+        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
+            String bogie = entry.getKey();
+            Integer capacity = entry.getValue();
+
+            System.out.println(bogie + " -> Capacity: " + capacity);
+        }
     }
 }

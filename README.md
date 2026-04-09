@@ -12,21 +12,40 @@ Tracking composition, capacity, cargo types, and safety compliance
 
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
-UC3: Track Unique Bogie IDs (Set – HashSet)
+UC4: Maintain Ordered Bogie IDs (TreeSet & SortedSet)
 -
-**Drawback of UC2 Approach**
+**Drawback of UC3 Approach**
 
-In UC2, bogies are stored in a List. However, a List allows duplicate values, which is dangerous in a railway system.
-For example, two bogies could accidentally be registered with the same ID:
-BG101, BG101
-This violates business rules and can cause inconsistent train formation.
-To enforce uniqueness, we introduce the Set data structure.
+
+In UC3, we ensured the uniqueness of bogie IDs using HashSet.
+
+While this solves duplication, it introduces a new problem:
+
+HashSet does not preserve order.
+
+A train consist must follow a physical sequence:
+
+Locomotive → Passenger → Cargo → Guard Coach.
+
+
+With HashSet, the arrangement becomes unpredictable, which is unacceptable for real-world train formation.
+
+So, we need a structure that:
+
+✔ Maintains insertion order
+
+✔ Supports fast insertion/removal
+
+✔ Models real train chaining
+
+This leads us to LinkedList.
 
 **Goal**
 
 Ensure no duplicate bogie IDs are added to the train.
 
-**Actor:** User
+
+**Actor :** User
 
 **Flow**
 
@@ -38,26 +57,50 @@ Duplicates are ignored
 
 Unique IDs are displayed.
 
-**Key Concepts Used in UC3**
+**Key Concepts Used in UC4**
 
-HashSet – Stores unique elements.
+LinkedList – A doubly linked list implementation of the List interface where elements are connected using node references instead of indexes.
 
-Set Interface – Collection type that does not allow duplicate elements.
 
-HashSet – Implementation of Set that stores elements using hashing for fast access.
+Node Structure Concept – Each element contains data and links to previous and next nodes, enabling efficient insertions and deletions.
 
-add() Method – Inserts values into the set.
 
-Automatic Deduplication – HashSet ensures uniqueness without manual checks.
+addFirst() / addLast() – Methods to attach bogies at the beginning or end of the train.
 
-Unordered Storage – Elements are not stored using index positions.
+
+add(index, element) – Inserts a bogie in the middle of the consist.
+
+
+removeFirst() / removeLast() – Detaches bogies from the head or tail.
+
+
+Order Preservation – Maintains the physical sequence of train bogies.
+
+**Key Requirements**
+
+Create a LinkedList<String> for the consist.
+
+
+Add bogies: Engine, Sleeper, AC, Cargo, Guard.
+
+
+Insert a Pantry Car at position 2.
+
+
+Remove the first and last bogie.
+
+
+Display the final ordered train consist.
 
 **Key Benefits**
 
-Enforces business constraints.
+Models real-world chaining behavior.
 
-Prevents data corruption.
 
-Teaches students when to use Set instead of List.
+Teaches when LinkedList is better than ArrayList.
 
-Introduces uniqueness as a real-world requirement.
+
+Demonstrates insertion and deletion efficiency.
+
+
+Helps students visualize node-based structures.

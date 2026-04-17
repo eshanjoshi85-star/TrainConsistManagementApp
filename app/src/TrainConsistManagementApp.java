@@ -1,4 +1,4 @@
-//Version 9.0
+//Version 10.0
 //Eshan Pankaj Joshi
 //UC1: Initialize train consist
 //UC2: Passenger Bogie Operations
@@ -9,6 +9,7 @@
 //UC7: Sort Bogies by Capacity (Comparator)
 //UC8: Filter Passenger Bogies Using Streams
 //UC9: Group Bogies by Type
+//UC10: Count Total Seats in Train
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -183,5 +184,15 @@ public class TrainApp {
 
             System.out.println(type + " -> " + bogies);
         }
+        // ---------------- UC10 ----------------
+        System.out.println("\nCalculating total seating capacity using reduce...");
+
+        // Aggregate total capacity
+        int totalCapacity = bogieList.stream()
+                .map(b -> b.capacity)
+                .reduce(0, Integer::sum);
+
+        // Display result
+        System.out.println("Total Seating Capacity of Train: " + totalCapacity);
     }
 }

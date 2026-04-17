@@ -12,87 +12,97 @@ Tracking composition, capacity, cargo types, and safety compliance
 
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
-UC10: Count Total Seats in Train (reduce)
+UC11: Validate Train ID & Cargo Codes (Regex)
 -
 
-**Drawback of the UC9 Approach**
+**Drawback of UC10 Approach**
 
-In UC9, bogies are organized into logical groups using groupingBy().
-While grouping structures the data, it does not provide numerical insight.
+In UC10, the system successfully calculates total seating capacity.
+However, all previous use cases assume that the input data is already valid and well-formed.
 
-In real railway operations, administration often needs to:
+In real railway systems, user input can be:
 
-• Know the total seating capacity of the train.
+• Incorrectly formatted.
 
-• Estimate passenger handling capability.
+• Inconsistent with business rules.
 
-• Perform utilization planning.
+• Prone to human error.
 
-With only grouped lists:
+For example:
 
-❌ No total metrics are available.
+✔ Valid Train ID: TRN-1234
 
-❌ No aggregation is performed.
+❌ Invalid Train ID: TRAIN12, TRN12A, 1234-TRN
 
-❌ Decision-making lacks quantitative support.
+If such values are accepted blindly:
+❌ Data integrity is broken.
 
-For example, seeing Sleeper and AC Chair grouped is useful, but it is more useful to know how many total seats the train can offer.
-To compute meaningful values, we introduce aggregation using reduce().
+❌ Downstream processing fails.
+
+❌ Reports become unreliable.
+
+To ensure correctness before processing, the system must validate input formats.
+
+This leads us to Regular Expressions (Regex) using Pattern and Matcher.
+
 
 **Goal**
 
-Aggregate seating capacities into a single total value using Stream reduction.
+Validate Train ID and Cargo Code formats using Regular Expressions.
 
 **Actor:** User
 
 **Flow**
 
-User creates a list of bogies.
+The user enters the Train ID and Cargo Code.
 
-System converts the list into a stream
+System compiles a regex pattern.
 
-map() extracts capacity values
+Matcher checks input against the pattern.
 
-reduce() sums the capacities.
+If the format matches, input is accepted.
 
-Total seating capacity is displayed.
+If not, validation fails, and an error message is shown.
 
 Program continues.
 
-**Key Concepts Used in UC10**
 
-map() Operation – Transforms each bogie object into its numeric capacity value so that mathematical operations can be applied.
+**Key Concepts Used in UC11**
 
-reduce() Method – Combines multiple values into a single result, such as summing all seat capacities into one total number.
+Regular Expressions (Regex) – A pattern language used to describe valid text formats, enabling the system to enforce structure rules such as TRN-1234.
 
-Method Reference – Uses concise syntax like Integer::sum to define aggregation logic clearly.
+Pattern Class – Represents a compiled regular expression that can be reused to validate multiple inputs efficiently.
 
-Functional Aggregation – Replaces manual loops with declarative computation pipelines.
+Matcher Class – Applies a Pattern to a given input string and determines whether the input matches the required format.
 
-Stream Pipeline – Chains transformation and aggregation steps into a single readable flow.
+matches() Method – Verifies whether the entire input string conforms exactly to the regex pattern.
 
-Numeric Analytics – Enables quantitative analysis over collection data for planning purposes.
+Format Enforcement – Ensures that Train IDs and Cargo Codes follow strict business rules before being processed further.
+
+Data Integrity Validation – Prevents malformed data from entering the system and corrupting train operations.
 
 **Key Requirements**
 
-Reuse the list of Bogie objects.
+Define a regex pattern for Train ID such as TRN-\\d{4}.
 
-Create a stream using stream().
+Define a regex pattern for Cargo Code such as PET-[A-Z]{2}.
 
-Apply map(b -> b.capacity) to extract numeric values.
+Compile patterns using the Pattern class.
 
-Use reduce(0, Integer::sum) to calculate the total.
+Create Matcher objects for user input.
 
-Display the total seating capacity.
+Use matches() to validate input formats.
+
+Display whether the input is valid or invalid.
 
 **Key Benefits**
 
-Introduces aggregation logic in functional style.
+Ensures correctness of user and system input.
 
-Provides real operational metrics for the train.
+Protects downstream processing from invalid data.
 
-Improves planning and utilization analysis.
+Introduces regex-based validation techniques.
 
-Replaces error-prone manual summation loops.
+Teaches students format enforcement in enterprise applications.
 
-Builds foundation for advanced analytics use cases.
+Builds foundation for robust input handling.

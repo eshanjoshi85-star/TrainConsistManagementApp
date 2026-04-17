@@ -12,93 +12,102 @@ Tracking composition, capacity, cargo types, and safety compliance
 
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
-UC14: Handle Invalid Bogie Capacity (Custom Exception)
+UC15: Safe Cargo Assignment Using try-catch-finally
 -
 
-**Drawback of UC13 Approach**
+**Drawback of UC14 Approach**
 
-In UC13, the system focuses on performance comparison, but it assumes all data is already valid.
- 
- In real railway systems, invalid input can easily enter the system, such as:
+In UC14, validation happens during object creation and stops execution using checked exceptions.
+However, not all problems occur at construction time.
 
-• Negative seat capacity.
+In a running railway system:
 
-• Zero capacity bogies.
+• Cargo may be assigned dynamically.
 
-• Corrupted configuration values.
+• Operators may choose unsafe combinations.
 
-If such values are allowed:
+• Runtime conditions may violate safety policies.
 
-❌ Passenger allocation becomes meaningless.
+For example:
 
-❌ Safety and reporting break down.
+Assigning petroleum to a rectangular bogie is unsafe, but the system might attempt it while running.
 
-❌ Bugs propagate silently through later use cases.
+If runtime exceptions are not handled:
 
-Without validation:
+❌ The application may crash unexpectedly.
 
-The train consist may contain bogies that can never carry passengers.
+❌ Cleanup or logging may never happen.
 
-Instead of allowing bad data and fixing it later, the system 
-should fail fast at the moment of creation.
+❌ The user gets no controlled feedback.
 
-This leads to custom exception handling.
+So beyond throwing exceptions, the system must also catch and manage them safely using structured handling with:
+
+✔ try
+
+✔ catch
+
+✔ finally
 
 **Goal**
 
-Prevent invalid passenger bogies from being added to the train by enforcing capacity rules using a custom exception.
-Actor: User
+Safely handle unsafe cargo assignments without crashing the Train Consist Management App.
+
+**Actor:** User
 
 **Flow**
 
-User attempts to create a passenger bogie.
+User attempts to assign cargo to a goods bogie.
 
-System validates the capacity value.
+System checks shape and cargo compatibility.
 
-If capacity ≤ 0, a custom exception is thrown.
+If unsafe, an exception is thrown.
 
-If capacity is valid, the bogie is created successfully
+Exception is caught in the catch block.
 
-System continues execution safely.
+An error message is displayed.
 
-**Key Concepts Used in UC14**
+finally block executes cleanup or logging.
 
-Custom Exception – A user-defined exception class that represents 
+Program continues safely.
 
-domain-specific errors such as invalid bogie capacity.
+**Key Concepts Used in UC15**
 
-Exception Inheritance – Creating a new exception by extending 
+try-catch-finally – Structured blocks used to detect, 
+handle, and finalize exception-prone logic.
 
-Exception to represent checked exceptions.
+Runtime Exception – An unchecked exception raised during program execution rather than compile time.
 
-throw Keyword – Used to explicitly raise an exception when business rules are violated.
+Custom Runtime Exception – Domain-specific exception for unsafe cargo assignments.
 
-throws Declaration – Declares that a method or constructor may pass an exception to the caller.
+throw Keyword – Used to signal unsafe operational conditions.
 
-Fail-Fast Validation – Detects errors early and stops incorrect object creation.
+Graceful Failure Handling – Prevents application crashes while informing the user properly.
 
-Business Rule Enforcement – Encapsulates railway constraints directly into object construction logic.
+finally Block – Executes mandatory logic such as logging or cleanup whether an exception occurs or not.
 
 **Key Requirements**
 
-Create a custom exception class InvalidCapacityException.
+Create a custom runtime exception CargoSafetyException.
 
-Validate capacity inside the passenger bogie constructor.
+Validate cargo and shape compatibility before assignment.
 
-Throw the exception when capacity is less than or equal to zero.
+Throw exception when petroleum is assigned to a rectangular bogie.
 
-Declare the constructor with throws InvalidCapacityException.
+Catch the exception inside the assignment logic.
 
-Ensure invalid bogies are never added to the train consist.
+Use finally block for completion logging.
+
+Ensure the application continues after failure.
+
 
 **Key Benefits**
 
-Protects the system from corrupted input.
+Improves runtime safety of cargo operations.
 
-Encapsulates validation inside domain objects.
+Demonstrates checked vs unchecked exception usage.
 
-Introduces checked exceptions clearly.
+Teaches structured error handling.
 
-Encourages defensive programming.
+Ensures system stability during failures.
 
-Prevents downstream failures in later use cases.
+Encourages defensive operational coding.

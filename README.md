@@ -12,101 +12,93 @@ Tracking composition, capacity, cargo types, and safety compliance
 
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
-UC13: Performance Comparison (Loops vs Streams)
+UC14: Handle Invalid Bogie Capacity (Custom Exception)
 -
 
-**Drawback of UC12 Approach**
+**Drawback of UC13 Approach**
 
-In UC12, the system uses Java Streams to validate safety rules in a clean and declarative way.
-While streams improve readability, many developers assume they are always faster than traditional loops.
+In UC13, the system focuses on performance comparison, but it assumes all data is already valid.
+ 
+ In real railway systems, invalid input can easily enter the system, such as:
 
-In real systems, performance matters because:
+• Negative seat capacity.
 
-• Trains may have thousands of bogies in data sets.
+• Zero capacity bogies.
 
-• Validation and filtering may run frequently.
+• Corrupted configuration values.
 
-• Inefficient logic can slow down operations.
+If such values are allowed:
 
-Without measurement:
+❌ Passenger allocation becomes meaningless.
 
-❌ Developers guess performance instead of proving it.
+❌ Safety and reporting break down.
 
-❌ Optimization decisions become unreliable.
+❌ Bugs propagate silently through later use cases.
 
-❌ The system may choose elegance over efficiency blindly.
+Without validation:
 
-For example:
+The train consist may contain bogies that can never carry passengers.
 
-A stream pipeline looks modern,
-but a simple loop might be faster in some scenarios.
-To make informed choices, we must measure execution time, not assume it.
-This introduces performance benchmarking using System.nanoTime().
+Instead of allowing bad data and fixing it later, the system 
+should fail fast at the moment of creation.
+
+This leads to custom exception handling.
 
 **Goal**
 
-Compare performance of loop-based logic versus stream-based logic using time measurement.
-
-**Actor:** User
+Prevent invalid passenger bogies from being added to the train by enforcing capacity rules using a custom exception.
+Actor: User
 
 **Flow**
 
-User prepares a collection of bogies.
+User attempts to create a passenger bogie.
 
-System records start time using System.nanoTime().
+System validates the capacity value.
 
-Filtering is performed using a loop or stream.
+If capacity ≤ 0, a custom exception is thrown.
 
-System records end time.
+If capacity is valid, the bogie is created successfully
 
-Elapsed time is calculated.
+System continues execution safely.
 
-Execution time is displayed.
+**Key Concepts Used in UC14**
 
-Program continues.
+Custom Exception – A user-defined exception class that represents 
 
+domain-specific errors such as invalid bogie capacity.
 
+Exception Inheritance – Creating a new exception by extending 
 
+Exception to represent checked exceptions.
 
+throw Keyword – Used to explicitly raise an exception when business rules are violated.
 
+throws Declaration – Declares that a method or constructor may pass an exception to the caller.
 
+Fail-Fast Validation – Detects errors early and stops incorrect object creation.
 
-**Key Concepts Used in UC13**
-
-System.nanoTime() – Provides high-resolution time measurement used for benchmarking small blocks of code accurately.
-
-Performance Benchmarking – Technique to evaluate how long a specific operation takes to execute.
-
-Loop-Based Processing – Traditional iteration using for or enhanced for loops for filtering logic.
-
-Stream-Based Processing – Declarative iteration using Stream API pipelines such as filter() and collect().
-
-Micro-Measurement Awareness – Teaches that small code sections require precise timing instead of coarse clocks like milliseconds.
-
-Evidence-Driven Optimization – Encourages decisions based on measured results rather than intuition.
+Business Rule Enforcement – Encapsulates railway constraints directly into object construction logic.
 
 **Key Requirements**
 
-Create a collection of bogies for testing.
+Create a custom exception class InvalidCapacityException.
 
-Capture start time using System.nanoTime().
+Validate capacity inside the passenger bogie constructor.
 
-Execute loop-based filtering or stream-based filtering.
+Throw the exception when capacity is less than or equal to zero.
 
-Capture end time using System.nanoTime().
+Declare the constructor with throws InvalidCapacityException.
 
-Compute elapsed time using (end - start).
-
-Print the execution duration.
+Ensure invalid bogies are never added to the train consist.
 
 **Key Benefits**
 
-Introduces performance awareness to students.
+Protects the system from corrupted input.
 
-Demonstrates practical benchmarking techniques.
+Encapsulates validation inside domain objects.
 
-Compares imperative and declarative styles.
+Introduces checked exceptions clearly.
 
-Avoids premature optimization assumptions.
+Encourages defensive programming.
 
-Builds mindset of measurement-driven development.
+Prevents downstream failures in later use cases.

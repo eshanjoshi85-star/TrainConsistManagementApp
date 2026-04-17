@@ -14,91 +14,99 @@ Tracking composition, capacity, cargo types, and safety compliance
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
 
-UC18: Linear Search for Bogie ID (Array-Based Searching)
+UC19: Binary Search for Bogie ID (Optimized Searching)
 -
 
-**Drawback of UC17 Approach**
+**Drawback of UC18 Approach**
 
-In UC17, bogie names were sorted for reporting, but the system still lacks a way to locate a specific bogie by ID in the consist.
+In UC18, the system used Linear Search.
 
-In real railway operations:
+While simple and reliable, Linear Search has limitations:
 
-• Operators search bogies for inspection.
+• It checks elements one by one.
 
-• Maintenance teams locate damaged coaches.
+• Time complexity is O(n).
 
-• Systems must retrieve a bogie quickly.
+• Performance degrades with large data sets.
 
-If no search logic exists:
+In a real railway system:
 
-❌ The system can only display all data.
+• Thousands of bogies may be stored.
 
-❌ It cannot pinpoint a specific bogie.
+• Searches happen frequently.
 
-❌ Manual scanning becomes necessary.
+• Slow lookups affect operational speed.
 
-Before optimizing, the system must first support basic 
-searching, even when data is unsorted.
+Once bogie IDs are sorted, the system can search smarter instead of harder.
 
-That is why UC18 introduces Linear Search.
+This introduces Binary Search, a divide-and-conquer strategy.
 
 **Goal**
 
-Search and identify a specific bogie ID from an unsorted list using Linear Search.
-**Actor:** User
+Find a bogie ID efficiently using binary search on sorted data.
+
+**Actor**: User
 
 **Flow**
 
-User provides a list of bogie IDs.
+User provides sorted bogie IDs.
 
 User provides a search key.
 
- System traverses the array sequentially.
+System initializes low and high indexes.
 
- Each element is compared with the search key.
+System finds the middle index.
 
- If match found, search stops.
+Key is compared with middle value.
 
- Result is displayed.
+Search range is halved.
 
- Program continues.
+Steps repeat until found or exhausted.
 
-**Key Concepts Used in UC18*
+Result is displayed.
 
-Linear Search – A simple searching technique that checks each element one by one until a match is found.
+Program continues.
 
-Sequential Traversal – Visits elements in order from start to end.
 
-Equality Comparison – Uses equals() to compare string IDs safely.
+**Key Concepts Used in UC19**
 
-Early Termination – Stops searching immediately once a match is found.
+Binary Search – An optimized searching technique that repeatedly divides the search range in half.
 
-Unsorted Data Handling – Works correctly even when data is not ordered.
+Divide-and-Conquer Strategy – Breaks the problem into smaller parts each iteration.
 
-Time Complexity Awareness – Demonstrates O(n) performance characteristics.
+Sorted Data Precondition – Binary search only works correctly on ordered data.
+
+Index-Based Traversal – Uses low, high, and mid positions for navigation.
+
+String Comparison – Uses compareTo() for lexicographic ordering checks.
+
+Time Complexity Awareness – Demonstrates O(log n) efficiency compared to O(n).
 
 **Key Requirements**
 
-Create an array of bogie IDs.
+Ensure bogie IDs are sorted before searching.
 
-Accept a bogie ID to search.
+Initialize low and high indexes.
 
-Traverse the array using a loop.
+Compute mid index correctly.
 
-Compare each ID using equals().
+Compare key with mid element using compareTo().
 
-Stop when a match is found.
+Adjust search range accordingly.
 
-Print whether the bogie exists.
+Stop when found or when range is exhausted.
+
+Display the result.
 
 **Key Benefits**
 
-Works on any data ordering.
+Improves search performance drastically.
 
-Simple and reliable search logic.
+Introduces algorithmic optimization concepts.
 
-Introduces searching fundamentals.
+Shows importance of preconditions.
 
-Prepares for optimized search in UC19.
+Builds efficient lookup capability.
 
-Builds understanding of traversal logic.
+Complements UC18 with an advanced technique.
+

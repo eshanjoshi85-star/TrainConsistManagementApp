@@ -1,4 +1,4 @@
-//Version 18.0
+//Version 19.0
 //Eshan Pankaj Joshi
 //UC1: Initialize train consist
 //UC2: Passenger Bogie Operations
@@ -18,6 +18,7 @@
 //UC16: Sort Passenger Bogies by Capacity
 //UC17: Sort Bogie Names Alphabetically
 //UC18: Linear Search for Bogie ID
+//UC19: Binary Search for Bogie ID
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.regex.Pattern;
@@ -328,5 +329,53 @@ if (!found) {
 }
 
 System.out.println("Search operation completed.");
+    // ---------------- UC19 ----------------
+System.out.println("\nBinary Search for Bogie ID...");
+
+// Step 1: Sorted array of bogie IDs (REQUIRED)
+String[] sortedBogieIds = {"BG101", "BG150", "BG205", "BG275", "BG310"};
+
+// Step 2: Define search key
+String key = "BG205";
+
+// Display array
+System.out.println("Sorted Bogie IDs:");
+System.out.println(Arrays.toString(sortedBogieIds));
+
+// Step 3: Initialize pointers
+int low = 0;
+int high = sortedBogieIds.length - 1;
+
+boolean foundBinary = false;
+
+// Step 4: Binary Search Logic
+while (low <= high) {
+
+    int mid = (low + high) / 2;
+
+    int comparison = sortedBogieIds[mid].compareTo(key);
+
+    if (comparison == 0) {
+        System.out.println("Bogie ID " + key + " FOUND at index " + mid);
+        foundBinary = true;
+        break;
     }
+    else if (comparison < 0) {
+        // mid value < key → search right half
+        low = mid + 1;
+    }
+    else {
+        // mid value > key → search left half
+        high = mid - 1;
+    }
+}
+
+// Step 5: If not found
+if (!foundBinary) {
+    System.out.println("Bogie ID " + key + " NOT FOUND");
+}
+
+System.out.println("Binary search completed.");
+    }
+
 }

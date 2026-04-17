@@ -12,102 +12,88 @@ Tracking composition, capacity, cargo types, and safety compliance
 
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
-UC15: Safe Cargo Assignment Using try-catch-finally
+UC16: Sort Passenger Bogies by Capacity (Bubble Sort – Algorithm Intro)
 -
 
-**Drawback of UC14 Approach**
+**USE CASE:** Manual Sorting Without Collections.sort()
 
-In UC14, validation happens during object creation and stops execution using checked exceptions.
-However, not all problems occur at construction time.
+**Drawback of UC15 Approach**
 
-In a running railway system:
+In UC15, the system safely assigns cargo, but it does not address how data is organized for reporting or allocation.
+Earlier UCs used built-in tools like streams and comparators to sort data.
 
-• Cargo may be assigned dynamically.
+However:
 
-• Operators may choose unsafe combinations.
+• Students may not understand how sorting actually works internally.
 
-• Runtime conditions may violate safety policies.
+• Library methods hide algorithmic logic.
 
-For example:
+• Without fundamentals, optimization and debugging become harder.
 
-Assigning petroleum to a rectangular bogie is unsafe, but the system might attempt it while running.
+For training purposes, the railway system should demonstrate manual sorting logic before using high-level APIs.
 
-If runtime exceptions are not handled:
-
-❌ The application may crash unexpectedly.
-
-❌ Cleanup or logging may never happen.
-
-❌ The user gets no controlled feedback.
-
-So beyond throwing exceptions, the system must also catch and manage them safely using structured handling with:
-
-✔ try
-
-✔ catch
-
-✔ finally
+That is why UC16 introduces Bubble Sort, a simple comparison-based sorting algorithm.
 
 **Goal**
 
-Safely handle unsafe cargo assignments without crashing the Train Consist Management App.
+Sort passenger bogie capacities using a basic algorithm (Bubble Sort) instead of library methods.
 
 **Actor:** User
 
 **Flow**
 
-User attempts to assign cargo to a goods bogie.
+User provides passenger bogie capacities.
 
-System checks shape and cargo compatibility.
+System iterates through the array.
 
-If unsafe, an exception is thrown.
+Adjacent values are compared.
 
-Exception is caught in the catch block.
+If out of order, values are swapped.
 
-An error message is displayed.
+Multiple passes continue until sorted.
 
-finally block executes cleanup or logging.
+Sorted result is displayed.
 
-Program continues safely.
+Program continues.
 
-**Key Concepts Used in UC15**
+**Key Concepts Used in UC16**
 
-try-catch-finally – Structured blocks used to detect, 
-handle, and finalize exception-prone logic.
+Bubble Sort Algorithm – A simple comparison-based sorting technique that repeatedly swaps adjacent elements if they are in the wrong order.
 
-Runtime Exception – An unchecked exception raised during program execution rather than compile time.
+Array Manipulation – Direct access and modification of array elements using indexes.
 
-Custom Runtime Exception – Domain-specific exception for unsafe cargo assignments.
+Nested Loop Processing – Uses two loops to perform multiple passes over the dataset.
 
-throw Keyword – Used to signal unsafe operational conditions.
+Swapping Logic – Temporarily stores values to exchange positions safely.
 
-Graceful Failure Handling – Prevents application crashes while informing the user properly.
+Algorithmic Thinking – Teaches how high-level sorting is built from low-level steps.
 
-finally Block – Executes mandatory logic such as logging or cleanup whether an exception occurs or not.
+Time Complexity Awareness – Demonstrates O(n²) behavior for educational understanding.
+
+
 
 **Key Requirements**
 
-Create a custom runtime exception CargoSafetyException.
+Create an array of passenger bogie capacities.
 
-Validate cargo and shape compatibility before assignment.
+Use nested loops to compare adjacent values.
 
-Throw exception when petroleum is assigned to a rectangular bogie.
+Swap values when left element is greater than right element.
 
-Catch the exception inside the assignment logic.
+Repeat passes until the array is sorted.
 
-Use finally block for completion logging.
+Display the sorted capacities.
 
-Ensure the application continues after failure.
-
+Avoid using Arrays.sort() or Collections.sort().
 
 **Key Benefits**
 
-Improves runtime safety of cargo operations.
+Builds foundation for understanding sorting internals.
 
-Demonstrates checked vs unchecked exception usage.
+Bridges gap between theory and implementation.
 
-Teaches structured error handling.
+Improves problem-solving skills.
 
-Ensures system stability during failures.
+Prepares students for optimized sorting later.
 
-Encourages defensive operational coding.
+Encourages algorithm-level reasoning.

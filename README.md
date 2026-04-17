@@ -12,99 +12,101 @@ Tracking composition, capacity, cargo types, and safety compliance
 
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
-UC12: Safety Compliance Check for Goods Bogies
+UC13: Performance Comparison (Loops vs Streams)
 -
 
-**Drawback of UC11 Approach**
+**Drawback of UC12 Approach**
 
-In previous use cases, goods bogies were added, filtered, and processed without enforcing domain safety rules.
-The system trusted that cargo assignments were always valid.
+In UC12, the system uses Java Streams to validate safety rules in a clean and declarative way.
+While streams improve readability, many developers assume they are always faster than traditional loops.
 
-In real railway logistics, this is dangerous:
+In real systems, performance matters because:
 
-• Certain bogie shapes are designed only for specific cargo.
+• Trains may have thousands of bogies in data sets.
 
-• Cylindrical bogies are meant for liquids like petroleum.
+• Validation and filtering may run frequently.
 
-• Assigning wrong cargo can cause leaks, fire hazards, or derailment risks.
+• Inefficient logic can slow down operations.
 
-Without validation:
+Without measurement:
 
-❌ Unsafe cargo may enter the system.
+❌ Developers guess performance instead of proving it.
 
-❌ Business rules are violated silently.
+❌ Optimization decisions become unreliable.
 
-❌ The train formation becomes operationally risky.
+❌ The system may choose elegance over efficiency blindly.
 
 For example:
 
-A Cylindrical bogie carrying Coal is invalid,
-but earlier logic would still allow it.
-To ensure safety compliance, we must verify rules before proceeding.
-This is where Streams with conditional logic help enforce business constraints declaratively.
+A stream pipeline looks modern,
+but a simple loop might be faster in some scenarios.
+To make informed choices, we must measure execution time, not assume it.
+This introduces performance benchmarking using System.nanoTime().
 
 **Goal**
 
-Encapsulate bogie rules using functional interfaces and apply them using lambda expressions.
+Compare performance of loop-based logic versus stream-based logic using time measurement.
 
 **Actor:** User
 
 **Flow**
 
-User prepares a list of goods bogies.
+User prepares a collection of bogies.
 
-System converts the list into a stream.
+System records start time using System.nanoTime().
 
-allMatch() checks every bogie against safety rules.
+Filtering is performed using a loop or stream.
 
-Conditional logic verifies cylindrical bogie cargo.
+System records end time.
 
-If all checks pass, the train is marked safe.
+Elapsed time is calculated.
 
-Result is displayed to the user.
+Execution time is displayed.
 
 Program continues.
 
 
-**Key Concepts Used in UC12**
 
-Streams API – Provides a declarative way to process collections by transforming and validating data without manual loops.
 
-allMatch() Terminal Operation – Evaluates whether every element in the stream satisfies a given condition, ideal for safety compliance checks.
 
-Lambda Expressions – Express validation rules inline, making business logic readable and concise.
 
-Conditional Logic in Streams – Combines logical operators inside stream predicates to enforce domain-specific constraints.
 
-Short-Circuit Evaluation – Stops processing as soon as a rule fails, improving performance and safety validation speed.
+**Key Concepts Used in UC13**
 
-Business Rule Modeling – Converts real-world safety policies into executable Java logic.
+System.nanoTime() – Provides high-resolution time measurement used for benchmarking small blocks of code accurately.
 
+Performance Benchmarking – Technique to evaluate how long a specific operation takes to execute.
+
+Loop-Based Processing – Traditional iteration using for or enhanced for loops for filtering logic.
+
+Stream-Based Processing – Declarative iteration using Stream API pipelines such as filter() and collect().
+
+Micro-Measurement Awareness – Teaches that small code sections require precise timing instead of coarse clocks like milliseconds.
+
+Evidence-Driven Optimization – Encourages decisions based on measured results rather than intuition.
 
 **Key Requirements**
 
-Create a collection of goods bogies with type and cargo fields.
+Create a collection of bogies for testing.
 
-Convert the collection to a stream using stream().
+Capture start time using System.nanoTime().
 
-Use allMatch() to validate every bogie.
+Execute loop-based filtering or stream-based filtering.
 
-Apply conditional logic:
+Capture end time using System.nanoTime().
 
-Cylindrical → only Petroleum allowed.
+Compute elapsed time using (end - start).
 
-Store the result in a boolean variable.
-
-Display whether the train is safety compliant.
+Print the execution duration.
 
 **Key Benefits**
 
-Enforces real-world safety constraints programmatically.
+Introduces performance awareness to students.
 
-Prevents unsafe cargo configurations early.
+Demonstrates practical benchmarking techniques.
 
-Introduces stream-based validation patterns.
+Compares imperative and declarative styles.
 
-Replaces manual loops with declarative rules.
+Avoids premature optimization assumptions.
 
-Improves reliability of train formation logic.
+Builds mindset of measurement-driven development.

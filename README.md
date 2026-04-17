@@ -12,85 +12,88 @@ Tracking composition, capacity, cargo types, and safety compliance
 
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
-UC7: Sort Bogies by Capacity (Comparator)
+UC8: Filter Passenger Bogies Using Streams
 -
 
-**Drawback of UC6 Approach**
+**Drawback of UC7 Approach**
 
-In UC6, the system can store each bogie along with its capacity using a HashMap.
-However, the data is still unordered from a planning perspective.
-In real railway operations, administration often needs to:
+In UC7, bogies are sorted based on seating capacity using Comparator.
+While sorting organizes data, it does not allow the system to select specific bogies based on conditions.
 
-• Identify high-capacity bogies first.
+In real railway operations, administrators often need to:
 
-• Arrange bogies for optimal usage.
+• Display only high-capacity bogies.
 
-• Compare passenger capacity across classes.
+• Exclude low-capacity or special-purpose bogies.
 
-With only storage:
+• Apply business rules dynamically.
 
-❌ Bogies are not ranked.
+Using traditional loops:
 
-❌ There is no logical ordering.
+❌ Code becomes verbose and imperative.
 
-❌ Planning and reporting become difficult.
+❌ Logic is mixed with iteration.
 
-For example, knowing that Sleeper has 72 seats and AC Chair has 56 seats is useful,
-but it is more useful to see them sorted by capacity.
-To introduce ordering based on business logic, we use Comparator for custom sorting of objects.
+❌ Harder to read and maintain.
+
+For example, manually looping through each bogie to check capacity adds boilerplate code and hides the business intent.
+To express filtering logic clearly and concisely, we introduce the Java Stream API
 
 **Goal**
 
-Sort passenger bogies based on their seating capacity using a custom Comparator.
+Filter passenger bogies using Stream pipelines based on seating capacity.
 
 **Actor:** User
 
 **Flow**
 
-User creates passenger bogie objects.
+User creates a list of bogies.
 
-Bogies are stored in a List.
+The system converts the list into a stream.
 
-System applies a Comparator to sort by capacity.
+filter() is applied with a condition.
 
-Sorted bogies are displayed in order.
+Matching bogies are collected into a new list.
+
+Filtered bogies are displayed.
 
 Program continues.
 
-**Key Concepts Used in UC7**
 
-Comparator Interface – A functional interface in Java used to define custom comparison logic so that objects can be ordered based on business rules instead of natural ordering.
+**Key Concepts Used in UC8**
 
-Custom Objects – Bogies are modeled as Java objects with properties such as name and capacity, allowing richer behavior than simple strings.
+Stream API – A modern Java feature that processes collections in a declarative style, allowing operations such as filtering, mapping, and aggregation without manual loops.
 
-List Collection – Stores multiple bogie objects dynamically so that sorting and iteration can be applied easily.
+stream() Method – Converts a collection into a stream pipeline so that functional operations can be applied to bogie data.
 
-sort() Method – Applies the Comparator logic to rearrange elements in the list according to the defined comparison criteria.
+filter() Operation – Selects elements that satisfy a given condition, such as capacity greater than a specific value.
 
-Lambda Expressions – Provide a concise way to express comparison logic without creating separate classes.
+Lambda Expressions – Provide concise behavior definition for filtering logic instead of long conditional loops.
 
-Separation of Data and Logic – Keeps bogie data independent from sorting behavior, improving maintainability and clarity.
+collect() / toList() – Converts the processed stream back into a collection that can be stored or displayed.
+
+Declarative Programming Style – Focuses on what to do instead of how to iterate, improving readability and intent clarity.
 
 **Key Requirements**
 
-Create a Bogie class with fields such as name and capacity.
+Reuse the Bogie list created in UC7.
 
-Create a List<Bogie> to store passenger bogies.
+Create a stream from the list using stream().
 
-Add bogies like Sleeper, AC Chair, and First Class with capacities.
+Apply filter(b -> b.capacity > 60) as the condition.
 
-Use Comparator.comparingInt() to define sorting based on capacity.
+Collect the result into a new list.
 
-Sort the list and display the sorted bogies.
+Display the filtered bogies.
 
 **Key Benefits**
 
-Introduces object-based collection handling instead of primitive lists.
+Reduces boilerplate looping code.
 
-Teaches students how to apply business rules during sorting.
+Improves clarity of business rules.
 
-Improves train planning and capacity analysis.
+Introduces functional-style programming in Java.
 
-Demonstrates clean separation between data structure and behavior.
+Enhances maintainability of collection processing.
 
-Prepares students for enterprise-level collection processing.
+Prepares students for advanced stream operations in later use cases.

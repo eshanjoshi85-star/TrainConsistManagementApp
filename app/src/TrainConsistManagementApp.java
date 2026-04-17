@@ -1,4 +1,4 @@
-//Version 7.0
+//Version 8.0
 //Eshan Pankaj Joshi
 //UC1: Initialize train consist
 //UC2: Passenger Bogie Operations
@@ -7,6 +7,7 @@
 //UC5: Preserve Insertion Order of Bogies
 //UC6: Map Bogie to Capacity (HashMap)
 //UC7: Sort Bogies by Capacity (Comparator)
+//UC8: Filter Passenger Bogies Using Streams
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,10 +18,11 @@ import java.util.LinkedHashSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class TrainApp {
 
-    // ----------- Bogie Class for UC7 -----------
+    // ----------- Bogie Class for UC7 & UC8 -----------
     static class Bogie {
         String name;
         int capacity;
@@ -77,8 +79,8 @@ public class TrainApp {
         bogieIds.add("BG101");
         bogieIds.add("BG102");
         bogieIds.add("BG103");
-        bogieIds.add("BG101"); // duplicate
-        bogieIds.add("BG102"); // duplicate
+        bogieIds.add("BG101");
+        bogieIds.add("BG102");
 
         System.out.println("Unique Bogie IDs: " + bogieIds);
 
@@ -113,7 +115,7 @@ public class TrainApp {
         trainFormation.add("Sleeper");
         trainFormation.add("Cargo");
         trainFormation.add("Guard");
-        trainFormation.add("Sleeper"); // duplicate
+        trainFormation.add("Sleeper");
 
         System.out.println("Final train formation (no duplicates, ordered): " + trainFormation);
 
@@ -129,10 +131,7 @@ public class TrainApp {
         System.out.println("Bogie Capacity Details:");
 
         for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
-            String bogie = entry.getKey();
-            Integer capacity = entry.getValue();
-
-            System.out.println(bogie + " -> Capacity: " + capacity);
+            System.out.println(entry.getKey() + " -> Capacity: " + entry.getValue());
         }
 
         // ---------------- UC7 ----------------
@@ -140,7 +139,6 @@ public class TrainApp {
 
         List<Bogie> bogieList = new ArrayList<>();
 
-        // Add bogie objects
         bogieList.add(new Bogie("Sleeper", 72));
         bogieList.add(new Bogie("AC Chair", 60));
         bogieList.add(new Bogie("First Class", 24));
@@ -150,11 +148,23 @@ public class TrainApp {
             System.out.println(b);
         }
 
-        // Sort using Comparator (Lambda)
         bogieList.sort(Comparator.comparingInt(b -> b.capacity));
 
         System.out.println("\nAfter sorting by capacity:");
         for (Bogie b : bogieList) {
+            System.out.println(b);
+        }
+
+        // ---------------- UC8 ----------------
+        System.out.println("\nFiltering bogies with capacity > 60 using Streams...");
+
+        // Create stream, filter, and collect
+        List<Bogie> filteredBogies = bogieList.stream()
+                .filter(b -> b.capacity > 60)
+                .collect(Collectors.toList());
+
+        System.out.println("Filtered bogies:");
+        for (Bogie b : filteredBogies) {
             System.out.println(b);
         }
     }

@@ -14,84 +14,91 @@ Tracking composition, capacity, cargo types, and safety compliance
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
 
-UC17: Sort Bogie Names Using Arrays.sort()
+UC18: Linear Search for Bogie ID (Array-Based Searching)
 -
-**Drawback of UC16 Approach**
 
-In UC16, sorting was performed manually using Bubble Sort.
-While useful for learning, Bubble Sort has limitations:
+**Drawback of UC17 Approach**
 
-• It is inefficient for large data sets.
+In UC17, bogie names were sorted for reporting, but the system still lacks a way to locate a specific bogie by ID in the consist.
 
-• Time complexity is O(n²).
+In real railway operations:
 
-• Real systems should not rely on manual algorithms for production.
+• Operators search bogies for inspection.
 
-In railway reporting and dashboards:
+• Maintenance teams locate damaged coaches.
 
-• Bogie names must be sorted frequently.
+• Systems must retrieve a bogie quickly.
 
-• Output must be fast and reliable.
+If no search logic exists:
 
-• Code should be simple and maintainable.
+❌ The system can only display all data.
 
-Instead of reinventing sorting logic, Java provides highly optimized built-in algorithms.
+❌ It cannot pinpoint a specific bogie.
 
-That is why UC17 introduces Arrays.sort().
+❌ Manual scanning becomes necessary.
+
+Before optimizing, the system must first support basic 
+searching, even when data is unsorted.
+
+That is why UC18 introduces Linear Search.
 
 **Goal**
 
-Sort bogie type names alphabetically using Java’s built-in Arrays.sort() method.
-
-Actor: User
+Search and identify a specific bogie ID from an unsorted list using Linear Search.
+**Actor:** User
 
 **Flow**
 
-User provides bogie type names.
+User provides a list of bogie IDs.
 
-System calls Arrays.sort() on the array.
+User provides a search key.
 
-Java internally sorts the values.
+ System traverses the array sequentially.
 
-Sorted bogie names are displayed.
+ Each element is compared with the search key.
 
-Program continues.
+ If match found, search stops.
 
+ Result is displayed.
 
-Key Concepts Used in UC17
+ Program continues.
 
-Arrays.sort() – A built-in Java utility method that sorts arrays using optimized dual-pivot quicksort or TimSort depending on type.
+**Key Concepts Used in UC18*
 
-Natural Ordering – Uses default comparison rules such as alphabetical order for strings.
+Linear Search – A simple searching technique that checks each element one by one until a match is found.
 
-Time Complexity Awareness – Demonstrates efficient O(n log n) sorting compared to manual O(n²) algorithms.
+Sequential Traversal – Visits elements in order from start to end.
 
-Library Optimization – Shows why standard libraries should be preferred over custom logic.
+Equality Comparison – Uses equals() to compare string IDs safely.
 
-Readable Code Design – Sorting becomes concise and expressive instead of verbose.
+Early Termination – Stops searching immediately once a match is found.
 
-Separation of Algorithm and Usage – Developers focus on what to sort, not how to sort internally.
+Unsorted Data Handling – Works correctly even when data is not ordered.
+
+Time Complexity Awareness – Demonstrates O(n) performance characteristics.
 
 **Key Requirements**
 
-Create an array of bogie type names.
+Create an array of bogie IDs.
 
-Use Arrays.sort() to sort the array.
+Accept a bogie ID to search.
 
-Do not implement manual swap logic.
+Traverse the array using a loop.
 
-Print the sorted result using Arrays.toString().
+Compare each ID using equals().
 
-Ensure output is alphabetical.
+Stop when a match is found.
+
+Print whether the bogie exists.
 
 **Key Benefits**
 
-Improves performance over manual sorting.
+Works on any data ordering.
 
-Keeps code clean and maintainable.
+Simple and reliable search logic.
 
-Introduces standard library usage.
+Introduces searching fundamentals.
 
-Builds confidence in Java utilities.
+Prepares for optimized search in UC19.
 
-Bridges algorithm learning with production practices.
+Builds understanding of traversal logic.

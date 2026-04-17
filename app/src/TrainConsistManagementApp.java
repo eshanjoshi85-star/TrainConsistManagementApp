@@ -1,4 +1,4 @@
-//Version 12.0
+//Version 13.0
 //Eshan Pankaj Joshi
 //UC1: Initialize train consist
 //UC2: Passenger Bogie Operations
@@ -12,6 +12,7 @@
 //UC10: Count Total Seats in Train
 //UC11: Validate Train ID & Cargo Codes
 //UC12: Safety Compliance Check for Goods Bogies
+//UC13: Performance Comparison (Loops vs Streams)
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -256,5 +257,45 @@ public class TrainApp {
 // Display result
         System.out.println("Goods Bogies: " + goodsBogies);
         System.out.println("Train Safety Status: " + (isSafe ? "SAFE" : "UNSAFE"));
+
+        // ---------------- UC13 ----------------
+        System.out.println("\nComparing performance: Loop vs Stream...");
+
+// Prepare dataset (large for meaningful comparison)
+        List<Bogie> performanceList = new ArrayList<>();
+
+        for (int i = 1; i <= 10000; i++) {
+            performanceList.add(new Bogie("Sleeper", 50 + (i % 50))); // capacities between 50–99
+        }
+
+// ----------- Loop-Based Filtering -----------
+        long loopStart = System.nanoTime();
+
+        List<Bogie> loopResult = new ArrayList<>();
+        for (Bogie b : performanceList) {
+            if (b.capacity > 60) {
+                loopResult.add(b);
+            }
+        }
+
+        long loopEnd = System.nanoTime();
+        long loopTime = loopEnd - loopStart;
+
+// ----------- Stream-Based Filtering -----------
+        long streamStart = System.nanoTime();
+
+        List<Bogie> streamResult = performanceList.stream()
+                .filter(b -> b.capacity > 60)
+                .collect(java.util.stream.Collectors.toList());
+
+        long streamEnd = System.nanoTime();
+        long streamTime = streamEnd - streamStart;
+
+// ----------- Results -----------
+        System.out.println("Loop Result Size: " + loopResult.size());
+        System.out.println("Stream Result Size: " + streamResult.size());
+
+        System.out.println("Loop Execution Time (ns): " + loopTime);
+        System.out.println("Stream Execution Time (ns): " + streamTime);
     }
 }

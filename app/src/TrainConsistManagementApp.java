@@ -1,4 +1,4 @@
-//Version 8.0
+//Version 9.0
 //Eshan Pankaj Joshi
 //UC1: Initialize train consist
 //UC2: Passenger Bogie Operations
@@ -8,7 +8,7 @@
 //UC6: Map Bogie to Capacity (HashMap)
 //UC7: Sort Bogies by Capacity (Comparator)
 //UC8: Filter Passenger Bogies Using Streams
-
+//UC9: Group Bogies by Type
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -166,6 +166,22 @@ public class TrainApp {
         System.out.println("Filtered bogies:");
         for (Bogie b : filteredBogies) {
             System.out.println(b);
+        }
+        // ---------------- UC9 ----------------
+        System.out.println("\nGrouping bogies by type using Collectors.groupingBy...");
+
+        // Group bogies based on name (type)
+        Map<String, List<Bogie>> groupedBogies = bogieList.stream()
+                .collect(Collectors.groupingBy(b -> b.name));
+
+        // Display grouped result
+        System.out.println("Grouped Bogies:");
+
+        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
+            String type = entry.getKey();
+            List<Bogie> bogies = entry.getValue();
+
+            System.out.println(type + " -> " + bogies);
         }
     }
 }

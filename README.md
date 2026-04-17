@@ -12,36 +12,35 @@ Tracking composition, capacity, cargo types, and safety compliance
 
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
-UC8: Filter Passenger Bogies Using Streams
+UC9: Group Bogies by Type (Collectors.groupingBy)
 -
 
-**Drawback of UC7 Approach**
+**Drawback of UC8 Approach**
 
-In UC7, bogies are sorted based on seating capacity using Comparator.
-While sorting organizes data, it does not allow the system to select specific bogies based on conditions.
+In UC8, the system filters bogies based on a condition such as seating capacity.
+While filtering selects relevant data, the result is still a flat list.
 
-In real railway operations, administrators often need to:
+In real railway operations, administration often needs to:
 
-• Display only high-capacity bogies.
+• Separate passenger bogies from goods bogies.
 
-• Exclude low-capacity or special-purpose bogies.
+• Organize bogies by category or class.
 
-• Apply business rules dynamically.
+• Produce structured reports instead of raw lists.
 
-Using traditional loops:
+With only filtering:
 
-❌ Code becomes verbose and imperative.
+❌ Data is not categorized.
 
-❌ Logic is mixed with iteration.
+❌ Reporting becomes difficult.
 
-❌ Harder to read and maintain.
+❌ Relationships between bogies are not visible.
 
-For example, manually looping through each bogie to check capacity adds boilerplate code and hides the business intent.
-To express filtering logic clearly and concisely, we introduce the Java Stream API
+For example, having a list of bogies does not clearly show which are Sleeper, AC Chair, or First Class in grouped form.
 
 **Goal**
 
-Filter passenger bogies using Stream pipelines based on seating capacity.
+Group bogies into categories using Stream collectors.
 
 **Actor:** User
 
@@ -49,51 +48,51 @@ Filter passenger bogies using Stream pipelines based on seating capacity.
 
 User creates a list of bogies.
 
-The system converts the list into a stream.
+System converts the list into a stream.
 
-filter() is applied with a condition.
+groupingBy() collector is applied.
 
-Matching bogies are collected into a new list.
+Bogies are grouped into a Map.
 
-Filtered bogies are displayed.
+Grouped result is displayed.
 
 Program continues.
 
+**Key Concepts Used in UC9**
 
-**Key Concepts Used in UC8**
+Collectors.groupingBy() – A stream collector that classifies elements based on a key function and stores them into a Map where each key represents a group of bogies.
 
-Stream API – A modern Java feature that processes collections in a declarative style, allowing operations such as filtering, mapping, and aggregation without manual loops.
+Stream Pipeline – A sequence of operations applied on data, allowing transformation from a list into a structured grouped result.
 
-stream() Method – Converts a collection into a stream pipeline so that functional operations can be applied to bogie data.
+Map Output Structure – groupingBy produces a Map where the key represents the category and the value represents the list of bogies belonging to that category.
 
-filter() Operation – Selects elements that satisfy a given condition, such as capacity greater than a specific value.
+Lambda Classification Logic – Defines how bogies are categorized, such as grouping by bogie name or type.
 
-Lambda Expressions – Provide concise behavior definition for filtering logic instead of long conditional loops.
+Data Aggregation – Collects multiple elements into logical clusters for easier analysis and reporting.
 
-collect() / toList() – Converts the processed stream back into a collection that can be stored or displayed.
-
-Declarative Programming Style – Focuses on what to do instead of how to iterate, improving readability and intent clarity.
+Structured Transformation – Converts flat data into hierarchical organization suitable for dashboards and planning.
 
 **Key Requirements**
 
-Reuse the Bogie list created in UC7.
+Reuse the list of Bogie objects.
 
-Create a stream from the list using stream().
+Create a stream using stream().
 
-Apply filter(b -> b.capacity > 60) as the condition.
+Apply Collectors.groupingBy() with a classification function.
 
-Collect the result into a new list.
+Store the result in Map<String, List<Bogie>>.
 
-Display the filtered bogies.
+Print the grouped bogie structure.
 
 **Key Benefits**
 
-Reduces boilerplate looping code.
+Transforms flat collections into meaningful structures.
 
-Improves clarity of business rules.
+Supports reporting and monitoring use cases.
 
-Introduces functional-style programming in Java.
+Introduces advanced stream collectors.
 
-Enhances maintainability of collection processing.
+Improves readability and organization of data.
 
-Prepares students for advanced stream operations in later use cases.
+Builds foundation for analytics and dashboards.
+

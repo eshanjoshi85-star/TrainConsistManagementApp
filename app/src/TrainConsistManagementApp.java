@@ -1,4 +1,4 @@
-//Version 11.0
+//Version 12.0
 //Eshan Pankaj Joshi
 //UC1: Initialize train consist
 //UC2: Passenger Bogie Operations
@@ -11,6 +11,7 @@
 //UC9: Group Bogies by Type
 //UC10: Count Total Seats in Train
 //UC11: Validate Train ID & Cargo Codes
+//UC12: Safety Compliance Check for Goods Bogies
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -217,5 +218,43 @@ public class TrainApp {
         // Display results
         System.out.println("Train ID: " + trainId + " -> " + (isTrainValid ? "Valid" : "Invalid"));
         System.out.println("Cargo Code: " + cargoCode + " -> " + (isCargoValid ? "Valid" : "Invalid"));
+        // ---------------- UC12 ----------------
+        System.out.println("\nChecking safety compliance for goods bogies...");
+
+// ----------- GoodsBogie Class -----------
+        class GoodsBogie {
+            String type;
+            String cargo;
+
+            public GoodsBogie(String type, String cargo) {
+                this.type = type;
+                this.cargo = cargo;
+            }
+
+            @Override
+            public String toString() {
+                return type + " -> " + cargo;
+            }
+        }
+
+// Create list of goods bogies
+        List<GoodsBogie> goodsBogies = new ArrayList<>();
+
+        goodsBogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
+        goodsBogies.add(new GoodsBogie("Open", "Coal"));
+        goodsBogies.add(new GoodsBogie("Box", "Grain"));
+// Try invalid case:
+// goodsBogies.add(new GoodsBogie("Cylindrical", "Coal"));
+
+// Safety validation using allMatch()
+        boolean isSafe = goodsBogies.stream()
+                .allMatch(b ->
+                        !b.type.equalsIgnoreCase("Cylindrical") ||
+                                b.cargo.equalsIgnoreCase("Petroleum")
+                );
+
+// Display result
+        System.out.println("Goods Bogies: " + goodsBogies);
+        System.out.println("Train Safety Status: " + (isSafe ? "SAFE" : "UNSAFE"));
     }
 }

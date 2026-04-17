@@ -12,97 +12,99 @@ Tracking composition, capacity, cargo types, and safety compliance
 
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
-UC11: Validate Train ID & Cargo Codes (Regex)
+UC12: Safety Compliance Check for Goods Bogies
 -
 
-**Drawback of UC10 Approach**
+**Drawback of UC11 Approach**
 
-In UC10, the system successfully calculates total seating capacity.
-However, all previous use cases assume that the input data is already valid and well-formed.
+In previous use cases, goods bogies were added, filtered, and processed without enforcing domain safety rules.
+The system trusted that cargo assignments were always valid.
 
-In real railway systems, user input can be:
+In real railway logistics, this is dangerous:
 
-• Incorrectly formatted.
+• Certain bogie shapes are designed only for specific cargo.
 
-• Inconsistent with business rules.
+• Cylindrical bogies are meant for liquids like petroleum.
 
-• Prone to human error.
+• Assigning wrong cargo can cause leaks, fire hazards, or derailment risks.
+
+Without validation:
+
+❌ Unsafe cargo may enter the system.
+
+❌ Business rules are violated silently.
+
+❌ The train formation becomes operationally risky.
 
 For example:
 
-✔ Valid Train ID: TRN-1234
-
-❌ Invalid Train ID: TRAIN12, TRN12A, 1234-TRN
-
-If such values are accepted blindly:
-❌ Data integrity is broken.
-
-❌ Downstream processing fails.
-
-❌ Reports become unreliable.
-
-To ensure correctness before processing, the system must validate input formats.
-
-This leads us to Regular Expressions (Regex) using Pattern and Matcher.
-
+A Cylindrical bogie carrying Coal is invalid,
+but earlier logic would still allow it.
+To ensure safety compliance, we must verify rules before proceeding.
+This is where Streams with conditional logic help enforce business constraints declaratively.
 
 **Goal**
 
-Validate Train ID and Cargo Code formats using Regular Expressions.
+Encapsulate bogie rules using functional interfaces and apply them using lambda expressions.
 
 **Actor:** User
 
 **Flow**
 
-The user enters the Train ID and Cargo Code.
+User prepares a list of goods bogies.
 
-System compiles a regex pattern.
+System converts the list into a stream.
 
-Matcher checks input against the pattern.
+allMatch() checks every bogie against safety rules.
 
-If the format matches, input is accepted.
+Conditional logic verifies cylindrical bogie cargo.
 
-If not, validation fails, and an error message is shown.
+If all checks pass, the train is marked safe.
+
+Result is displayed to the user.
 
 Program continues.
 
 
-**Key Concepts Used in UC11**
+**Key Concepts Used in UC12**
 
-Regular Expressions (Regex) – A pattern language used to describe valid text formats, enabling the system to enforce structure rules such as TRN-1234.
+Streams API – Provides a declarative way to process collections by transforming and validating data without manual loops.
 
-Pattern Class – Represents a compiled regular expression that can be reused to validate multiple inputs efficiently.
+allMatch() Terminal Operation – Evaluates whether every element in the stream satisfies a given condition, ideal for safety compliance checks.
 
-Matcher Class – Applies a Pattern to a given input string and determines whether the input matches the required format.
+Lambda Expressions – Express validation rules inline, making business logic readable and concise.
 
-matches() Method – Verifies whether the entire input string conforms exactly to the regex pattern.
+Conditional Logic in Streams – Combines logical operators inside stream predicates to enforce domain-specific constraints.
 
-Format Enforcement – Ensures that Train IDs and Cargo Codes follow strict business rules before being processed further.
+Short-Circuit Evaluation – Stops processing as soon as a rule fails, improving performance and safety validation speed.
 
-Data Integrity Validation – Prevents malformed data from entering the system and corrupting train operations.
+Business Rule Modeling – Converts real-world safety policies into executable Java logic.
+
 
 **Key Requirements**
 
-Define a regex pattern for Train ID such as TRN-\\d{4}.
+Create a collection of goods bogies with type and cargo fields.
 
-Define a regex pattern for Cargo Code such as PET-[A-Z]{2}.
+Convert the collection to a stream using stream().
 
-Compile patterns using the Pattern class.
+Use allMatch() to validate every bogie.
 
-Create Matcher objects for user input.
+Apply conditional logic:
 
-Use matches() to validate input formats.
+Cylindrical → only Petroleum allowed.
 
-Display whether the input is valid or invalid.
+Store the result in a boolean variable.
+
+Display whether the train is safety compliant.
 
 **Key Benefits**
 
-Ensures correctness of user and system input.
+Enforces real-world safety constraints programmatically.
 
-Protects downstream processing from invalid data.
+Prevents unsafe cargo configurations early.
 
-Introduces regex-based validation techniques.
+Introduces stream-based validation patterns.
 
-Teaches students format enforcement in enterprise applications.
+Replaces manual loops with declarative rules.
 
-Builds foundation for robust input handling.
+Improves reliability of train formation logic.

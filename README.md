@@ -12,35 +12,36 @@ Tracking composition, capacity, cargo types, and safety compliance
 
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
-UC9: Group Bogies by Type (Collectors.groupingBy)
+UC10: Count Total Seats in Train (reduce)
 -
 
-**Drawback of UC8 Approach**
+**Drawback of the UC9 Approach**
 
-In UC8, the system filters bogies based on a condition such as seating capacity.
-While filtering selects relevant data, the result is still a flat list.
+In UC9, bogies are organized into logical groups using groupingBy().
+While grouping structures the data, it does not provide numerical insight.
 
 In real railway operations, administration often needs to:
 
-• Separate passenger bogies from goods bogies.
+• Know the total seating capacity of the train.
 
-• Organize bogies by category or class.
+• Estimate passenger handling capability.
 
-• Produce structured reports instead of raw lists.
+• Perform utilization planning.
 
-With only filtering:
+With only grouped lists:
 
-❌ Data is not categorized.
+❌ No total metrics are available.
 
-❌ Reporting becomes difficult.
+❌ No aggregation is performed.
 
-❌ Relationships between bogies are not visible.
+❌ Decision-making lacks quantitative support.
 
-For example, having a list of bogies does not clearly show which are Sleeper, AC Chair, or First Class in grouped form.
+For example, seeing Sleeper and AC Chair grouped is useful, but it is more useful to know how many total seats the train can offer.
+To compute meaningful values, we introduce aggregation using reduce().
 
 **Goal**
 
-Group bogies into categories using Stream collectors.
+Aggregate seating capacities into a single total value using Stream reduction.
 
 **Actor:** User
 
@@ -48,29 +49,29 @@ Group bogies into categories using Stream collectors.
 
 User creates a list of bogies.
 
-System converts the list into a stream.
+System converts the list into a stream
 
-groupingBy() collector is applied.
+map() extracts capacity values
 
-Bogies are grouped into a Map.
+reduce() sums the capacities.
 
-Grouped result is displayed.
+Total seating capacity is displayed.
 
 Program continues.
 
-**Key Concepts Used in UC9**
+**Key Concepts Used in UC10**
 
-Collectors.groupingBy() – A stream collector that classifies elements based on a key function and stores them into a Map where each key represents a group of bogies.
+map() Operation – Transforms each bogie object into its numeric capacity value so that mathematical operations can be applied.
 
-Stream Pipeline – A sequence of operations applied on data, allowing transformation from a list into a structured grouped result.
+reduce() Method – Combines multiple values into a single result, such as summing all seat capacities into one total number.
 
-Map Output Structure – groupingBy produces a Map where the key represents the category and the value represents the list of bogies belonging to that category.
+Method Reference – Uses concise syntax like Integer::sum to define aggregation logic clearly.
 
-Lambda Classification Logic – Defines how bogies are categorized, such as grouping by bogie name or type.
+Functional Aggregation – Replaces manual loops with declarative computation pipelines.
 
-Data Aggregation – Collects multiple elements into logical clusters for easier analysis and reporting.
+Stream Pipeline – Chains transformation and aggregation steps into a single readable flow.
 
-Structured Transformation – Converts flat data into hierarchical organization suitable for dashboards and planning.
+Numeric Analytics – Enables quantitative analysis over collection data for planning purposes.
 
 **Key Requirements**
 
@@ -78,21 +79,20 @@ Reuse the list of Bogie objects.
 
 Create a stream using stream().
 
-Apply Collectors.groupingBy() with a classification function.
+Apply map(b -> b.capacity) to extract numeric values.
 
-Store the result in Map<String, List<Bogie>>.
+Use reduce(0, Integer::sum) to calculate the total.
 
-Print the grouped bogie structure.
+Display the total seating capacity.
 
 **Key Benefits**
 
-Transforms flat collections into meaningful structures.
+Introduces aggregation logic in functional style.
 
-Supports reporting and monitoring use cases.
+Provides real operational metrics for the train.
 
-Introduces advanced stream collectors.
+Improves planning and utilization analysis.
 
-Improves readability and organization of data.
+Replaces error-prone manual summation loops.
 
-Builds foundation for analytics and dashboards.
-
+Builds foundation for advanced analytics use cases.

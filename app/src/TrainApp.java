@@ -1,4 +1,4 @@
-//Version 19.0
+//Version 20.0
 //Eshan Pankaj Joshi
 //UC1: Initialize train consist
 //UC2: Passenger Bogie Operations
@@ -19,6 +19,8 @@
 //UC17: Sort Bogie Names Alphabetically
 //UC18: Linear Search for Bogie ID
 //UC19: Binary Search for Bogie ID
+//UC20: Exception Handling During Search Operations
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.regex.Pattern;
@@ -376,6 +378,44 @@ if (!foundBinary) {
 }
 
 System.out.println("Binary search completed.");
+    // ---------------- UC20 ----------------
+System.out.println("\nException Handling During Search Operations...");
+
+// Step 1: Create bogie collection (simulate empty case)
+List<String> bogieCollection = new ArrayList<>();
+
+// Uncomment below to test NON-empty case
+// bogieCollection.addAll(Arrays.asList("BG101", "BG150", "BG205"));
+
+String searchTarget = "BG150";
+
+try {
+    // Step 2: Defensive check (fail-fast)
+    if (bogieCollection.isEmpty()) {
+        throw new IllegalStateException("Cannot perform search: No bogies available in the train.");
+    }
+
+    // Step 3: Perform search (Linear Search example)
+    boolean found = false;
+
+    for (String id : bogieCollection) {
+        if (id.equals(searchTarget)) {
+            System.out.println("Bogie ID " + searchTarget + " FOUND");
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        System.out.println("Bogie ID " + searchTarget + " NOT FOUND");
+    }
+
+} catch (IllegalStateException e) {
+    // Step 4: Handle exception
+    System.out.println("Error: " + e.getMessage());
+}
+
+System.out.println("Search operation handled safely.");
     }
 
 }

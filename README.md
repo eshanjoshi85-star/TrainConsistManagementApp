@@ -14,99 +14,84 @@ Tracking composition, capacity, cargo types, and safety compliance
 Each use case introduces one or more Java concepts through a realistic railway Scenario.
 
 
-UC19: Binary Search for Bogie ID (Optimized Searching)
+UC20: Exception Handling During Search Operations
 -
 
-**Drawback of UC18 Approach**
+**Drawback of UC19 Approach**
 
-In UC18, the system used Linear Search.
+In earlier use cases, searching logic assumed that bogies already exist in the train formation.
 
-While simple and reliable, Linear Search has limitations:
+However, in real systems:
 
-• It checks elements one by one.
+• Users may try to search before adding any bogies.
 
-• Time complexity is O(n).
+• Empty data structures lead to meaningless searches.
 
-• Performance degrades with large data sets.
+• Processing should stop early instead of running invalid logic.
 
-In a real railway system:
+Without validation, the system might:
 
-• Thousands of bogies may be stored.
+• Waste computation.
 
-• Searches happen frequently.
+• Produce misleading output.
 
-• Slow lookups affect operational speed.
+• Cause runtime errors later in the flow.
 
-Once bogie IDs are sorted, the system can search smarter instead of harder.
+So the system must defend itself before searching.
 
-This introduces Binary Search, a divide-and-conquer strategy.
+This introduces the idea of fail-fast behavior using exceptions.
 
 **Goal**
 
-Find a bogie ID efficiently using binary search on sorted data.
+Prevent search operations on an empty train by throwing an exception early.
 
-**Actor**: User
+**Actor:** User
 
 **Flow**
 
-User provides sorted bogie IDs.
+User triggers a search operation.
 
-User provides a search key.
+System checks whether the bogie collection is empty.
 
-System initializes low and high indexes.
+If no bogies are available, the system throws an 
+IllegalStateException.
 
-System finds the middle index.
+The operation stops immediately.
 
-Key is compared with middle value.
+User receives a meaningful error message.
 
-Search range is halved.
+**Key Concepts Used in UC20**
 
-Steps repeat until found or exhausted.
+Defensive Programming – A coding approach where the system validates conditions before performing operations to avoid invalid execution paths.
 
-Result is displayed.
+IllegalStateException – A runtime exception used when a method is invoked at an inappropriate time or state, such as searching when no data exists.
 
-Program continues.
+Fail-Fast Principle – The idea of stopping execution as soon as an invalid condition is detected instead of letting the program continue incorrectly.
 
+State Validation – Ensures the train has bogies before attempting any search logic.
 
-**Key Concepts Used in UC19**
-
-Binary Search – An optimized searching technique that repeatedly divides the search range in half.
-
-Divide-and-Conquer Strategy – Breaks the problem into smaller parts each iteration.
-
-Sorted Data Precondition – Binary search only works correctly on ordered data.
-
-Index-Based Traversal – Uses low, high, and mid positions for navigation.
-
-String Comparison – Uses compareTo() for lexicographic ordering checks.
-
-Time Complexity Awareness – Demonstrates O(log n) efficiency compared to O(n).
+Runtime Exception Handling – Demonstrates how Java handles unchecked exceptions during execution without forcing callers to catch them.
 
 **Key Requirements**
 
-Ensure bogie IDs are sorted before searching.
+Check whether the bogie collection is empty before searching.
 
-Initialize low and high indexes.
+Use a conditional validation step.
 
-Compute mid index correctly.
+Throw IllegalStateException if no bogies exist.
 
-Compare key with mid element using compareTo().
+Provide a meaningful message to the user.
 
-Adjust search range accordingly.
-
-Stop when found or when range is exhausted.
-
-Display the result.
+Prevent further execution of the search logic.
 
 **Key Benefits**
 
-Improves search performance drastically.
+Prevents invalid operations early.
 
-Introduces algorithmic optimization concepts.
+Improves system reliability.
 
-Shows importance of preconditions.
+Makes error handling explicit and readable.
 
-Builds efficient lookup capability.
+Introduces real-world defensive coding practices.
 
-Complements UC18 with an advanced technique.
-
+Teaches students when and why to throw runtime exceptions.

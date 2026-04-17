@@ -1,4 +1,4 @@
-//Version 10.0
+//Version 11.0
 //Eshan Pankaj Joshi
 //UC1: Initialize train consist
 //UC2: Passenger Bogie Operations
@@ -10,6 +10,7 @@
 //UC8: Filter Passenger Bogies Using Streams
 //UC9: Group Bogies by Type
 //UC10: Count Total Seats in Train
+//UC11: Validate Train ID & Cargo Codes
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -20,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Comparator;
 import java.util.stream.Collectors;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class TrainApp {
 
@@ -194,5 +197,25 @@ public class TrainApp {
 
         // Display result
         System.out.println("Total Seating Capacity of Train: " + totalCapacity);
+        // ---------------- UC11 ----------------
+        System.out.println("\nValidating Train ID and Cargo Code using Regex...");
+        // Sample inputs (you can later replace with Scanner input)
+        String trainId = "TRN-1234";
+        String cargoCode = "PET-AB";
+        // Define regex patterns
+        String trainIdRegex = "TRN-\\d{4}";
+        String cargoCodeRegex = "PET-[A-Z]{2}";
+        // Compile patterns
+        Pattern trainPattern = Pattern.compile(trainIdRegex);
+        Pattern cargoPattern = Pattern.compile(cargoCodeRegex);
+        // Create matchers
+        Matcher trainMatcher = trainPattern.matcher(trainId);
+        Matcher cargoMatcher = cargoPattern.matcher(cargoCode);
+        // Validate using matches()
+        boolean isTrainValid = trainMatcher.matches();
+        boolean isCargoValid = cargoMatcher.matches();
+        // Display results
+        System.out.println("Train ID: " + trainId + " -> " + (isTrainValid ? "Valid" : "Invalid"));
+        System.out.println("Cargo Code: " + cargoCode + " -> " + (isCargoValid ? "Valid" : "Invalid"));
     }
 }
